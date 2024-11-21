@@ -1,0 +1,10 @@
+@charset 'UTF-8';
+
+// 1. Font families
+@import 'fonts/all';
+
+// 2. Abstracts and variables
+@import 'abstracts/all';
+
+// 3. Import tailwind styles
+@import 'tailwind';

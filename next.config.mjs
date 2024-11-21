@@ -1,8 +1,11 @@
+import path from 'path';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // sassOptions: {
-  //   implementation: 'sass-embedded',
-  // },
+  sassOptions: {
+    includePaths: [path.join(process.cwd(), 'src')],
+    prependData: `@use "src/theme/index.scss" as *;`,
+  },
 };
 
 export default nextConfig;

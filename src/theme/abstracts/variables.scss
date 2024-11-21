@@ -1,0 +1,86 @@
+// Media queries
+$largeMobile: 480;
+$tablet: 768;
+$large: 1024;
+$desktop: 1280;
+
+// SCSS Colors
+$primary: #e2ff81;
+$secondary: #a391c4;
+$success: #36ae7c;
+$danger: #eb5353;
+$white: #fff;
+$black: #444444;
+
+:root {
+  // Font sizes
+  --fs-xxs: 0.75rem;
+  --fs-xs: 1.2rem;
+  --fs-sm: 1.4rem;
+  --fs-md: 1.6rem;
+  --fs-lg: 1.8rem;
+  --fs-xl: 2rem;
+  --fs-2xl: 2.4rem;
+  --fs-3xl: 3rem;
+  --fs-4xl: 3.6rem;
+  --fs-5xl: 4.8rem;
+  --fs-6xl: 6rem;
+  --fs-7xl: 7.2rem;
+  --fs-8xl: 9.6rem;
+  --fs-9xl: 12.8rem;
+
+  // Font weights
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  // Font families
+  --ff-oswald: 'Oswald';
+  --ff-roboto: 'Roboto';
+  --ff-primary: var(--ff-roboto);
+  --ff-secondary: var(--ff-oswald);
+
+  // Colors
+  --transparent: rgba(0 0 0 / 0%);
+  --white: #{$white};
+  --black: #{$black};
+  --primary: #{$primary};
+  --primary-hover: #{darken($primary, 10%)};
+  --primary-active: #{darken($primary, 15%)};
+  --primary-disabled: #{mix($primary, $white, 50%)};
+  --secondary: #{$secondary};
+  --secondary-hover: #{darken($secondary, 10%)};
+  --secondary-active: #{darken($secondary, 15%)};
+  --secondary-disabled: #{mix($secondary, $white, 50%)};
+  --success: #{$success};
+  --success-hover: #{darken($success, 10%)};
+  --success-active: #{darken($success, 15%)};
+  --success-disabled: #{mix($success, $white, 50%)};
+  --danger: #{$danger};
+  --danger-hover: #{darken($danger, 10%)};
+  --danger-active: #{darken($danger, 15%)};
+  --danger-disabled: #{mix($danger, $white, 50%)};
+
+  // Times (in ms)
+  --very-slow: 2000ms;
+  --slow: 1000ms;
+  --normal: 500ms;
+  --fast: 150ms;
+
+  // Layers
+  --back: -1;
+  --over: 1;
+  --overtop: 100;
+  --z-alert: 200;
+  --z-loading: 300;
+
+  // Opacity
+  --hidden: 0;
+  --unnoticeable: 0.2;
+  --medium: 0.5;
+  --smooth: 0.7;
+  --visible: 1;
+
+  // Blur Value
+  --blur-ratio: 0.5rem;
+}

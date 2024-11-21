@@ -1,0 +1,14 @@
+/**
+ * Generate a gradient background.
+ * EXAMPLE USAGE: 
+ *    $background-color1: #3498db;
+ *    $background-color2: #2c3e50;
+ *    $gradient: generate-gradient($background-color1, $background-color2);
+ *
+ *    .header {
+ *      background: $gradient;
+ *    }
+ */
+@function generate-gradient($color1, $color2, $angle: 0deg) {
+  @return linear-gradient($angle, $color1, $color2);
+}
