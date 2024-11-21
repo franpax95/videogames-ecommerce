@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-standard-scss"
+  ],
+  "plugins": [
+    "stylelint-order",
+    "stylelint-selector-bem-pattern"
+  ],
+  "rules": {
+    "order/properties-alphabetical-order": true,
+    "selector-class-pattern": null,
+    "plugin/selector-bem-pattern": {
+      "preset": "bem",
+      "componentName": "[A-Z]+",
+      "componentSelectors": {
+        "initial": "^\\.{componentName}(?:-[a-z]+)?(?:__[a-z]+)?(?:--[a-z]+)?$"
+      },
+      "utilitySelectors": "^\\.u-[a-z]+(?:-[a-z]+)?$"
+    },
+    "import-notation": null,
+    "scss/no-global-function-names": null,
+    "media-query-no-invalid": null
+  }
+}
