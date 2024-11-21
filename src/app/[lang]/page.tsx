@@ -1,7 +1,7 @@
 import { LocalizedContent } from '@/types/localized-content';
 import Image from 'next/image';
-import { getLocalizedContent } from '../api/get-localized-content';
 import { Locale } from '@/types/locale';
+import { getLocalizedContent } from '../api/get-localized-content';
 
 export default async function HomePage({ params: { lang } }: { params: { lang: Locale } }) {
   await getLocalizedContent('home', lang)
