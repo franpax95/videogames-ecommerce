@@ -1,0 +1,72 @@
+# Ignore generated files
+/build/
+
+# Ignore Node.js specific files
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+
+# Ignore build artifacts
+/dist/
+/dist-out-tsc/
+
+# Ignore configuration files
+/tsconfig.json
+/tsconfig.base.json
+/tsconfig.app.json
+/tsconfig.spec.json
+/tsconfig.e2e.json
+
+# Ignore environment files
+/src/environments/*.ts
+
+# Ignore TypeScript declaration files
+/**/*.d.ts
+
+# Ignore coverage directory
+/coverage/
+
+# Ignore build output
+/dist/
+/out-tsc/
+
+# Ignore package-lock.json and yarn.lock
+/package-lock.json
+/yarn.lock
+
+# Linterns srcs
+.commitlintrc.json 
+.stylelintrc.json
+.eslintrc.json
+
+# Miscellaneous
+.cache/
+coverage/
+*.config.js
+*.config.mjs
+*.d.ts
+*.json
+*.lock
+*.log
+*.map
+*.md
+*.snap
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.webp
+*.mp4
+*.webm
+*.ogg
+*.mp3
+*.wav
+*.flac
+*.aac
+*.woff
+*.woff2
+*.ttf
+*.eot
+*.otf
