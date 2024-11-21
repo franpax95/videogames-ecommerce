@@ -1,6 +1,17 @@
+import { LocalizedContent } from '@/types/localized-content';
 import Image from 'next/image';
+import { getLocalizedContent } from '../api/get-localized-content';
+import { Locale } from '@/types/locale';
 
-export default function Home() {
+export default async function HomePage({ params: { lang } }: { params: { lang: Locale } }) {
+  await getLocalizedContent('home', lang)
+    .then((content: LocalizedContent) => {
+      console.log(content);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
