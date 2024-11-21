@@ -1,0 +1,34 @@
+/********************************************************************
+ * MODAL KEYFRAMES
+ */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-translate-in {
+  0% {
+    transform: translateY(calc(-4.5rem + calc(var(--level, 0) * 1.5rem)));
+  }
+
+  100% {
+    transform: translateY(calc(-4.5rem + calc(var(--next-level, 1) * 1.5rem)));
+  }
+}
+
+@keyframes modal-translate-out {
+  to {
+    transform: translateY(calc(-4.5rem + calc(var(--level, 0) * 1.5rem)));
+  }
+}

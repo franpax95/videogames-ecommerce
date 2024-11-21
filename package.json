@@ -6,21 +6,42 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "prepare": "husky",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
+    "lint": "next lint --dir src --fix",
+    "lint:styles": "stylelint 'src/**/*.{css,scss}' --fix"
   },
   "dependencies": {
+    "class-variance-authority": "0.7.0",
+    "clsx": "2.1.1",
+    "lucide-react": "0.460.0",
+    "next": "14.2.18",
     "react": "18",
     "react-dom": "18",
-    "next": "14.2.18"
+    "tailwind-merge": "2.5.4",
+    "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
-    "typescript": "5",
+    "@commitlint/cli": "19.6.0",
+    "@commitlint/config-conventional": "19.6.0",
     "@types/node": "20",
     "@types/react": "18",
     "@types/react-dom": "18",
-    "postcss": "8",
-    "tailwindcss": "3.4.1",
     "eslint": "8",
-    "eslint-config-next": "14.2.18"
+    "eslint-config-next": "14.2.18",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "husky": "9.1.7",
+    "lint-staged": "15.2.10",
+    "postcss": "8",
+    "prettier": "3.3.3",
+    "sass": "1.81.0",
+    "stylelint": "16.10.0",
+    "stylelint-config-standard": "36.0.1",
+    "stylelint-config-standard-scss": "13.1.0",
+    "stylelint-order": "6.0.4",
+    "stylelint-selector-bem-pattern": "4.0.1",
+    "tailwindcss": "3.4.1",
+    "typescript": "5"
   }
 }
