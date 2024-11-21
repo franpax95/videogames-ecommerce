@@ -28,6 +28,11 @@
     "postcss": "8",
     "prettier": "3.3.3",
     "sass": "1.81.0",
+    "stylelint": "16.10.0",
+    "stylelint-config-standard": "36.0.1",
+    "stylelint-config-standard-scss": "13.1.0",
+    "stylelint-order": "6.0.4",
+    "stylelint-selector-bem-pattern": "4.0.1",
     "tailwindcss": "3.4.1",
     "typescript": "5"
   }
