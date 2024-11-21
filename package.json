@@ -6,8 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
+    "lint": "next lint --dir src --fix",
+    "lint:styles": "stylelint 'src/**/*.{css,scss}' --fix"
   },
   "dependencies": {
     "next": "14.2.18",
