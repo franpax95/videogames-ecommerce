@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '../../theme/global.scss';
 import { Locale } from '@/types/locale';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={lang} className="dark">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
