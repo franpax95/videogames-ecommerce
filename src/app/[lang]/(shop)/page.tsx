@@ -1,9 +1,11 @@
 import { LocalizedContent } from '@/types/localized-content';
 import Image from 'next/image';
-import { Locale } from '@/types/locale';
-import { getLocalizedContent } from '../api/get-localized-content';
+import { getLocalizedContent } from '../../api/get-localized-content';
+import { getLocale } from '@/lib/get-locale';
 
-export default async function HomePage({ params: { lang } }: { params: { lang: Locale } }) {
+export default async function HomePage() {
+  const lang = getLocale();
+
   await getLocalizedContent('home', lang)
     .then((content: LocalizedContent) => {
       console.log(content);
