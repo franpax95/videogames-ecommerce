@@ -20,6 +20,7 @@ import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
 import { AUTH_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { registerFormErrorMessages, registerSchema } from '@/schemas/register';
+import { toast } from 'react-toastify';
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -53,17 +54,15 @@ export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
 
     try {
       await register(formData);
-      // TODO: Toast success
+      toast.success(dictionary?.succeed_register_message || 'Register successful');
     } catch (err) {
       const error = (err as Error).message as AUTH_ERROR;
-
-      // TODO: Toast the errors
       if (error === AUTH_ERROR.INCORRECT_CREDENTIALS) {
-        console.error(dictionary?.incorrect_credentials || 'Incorrect credentials');
+        toast.error(dictionary?.incorrect_credentials || 'Incorrect credentials');
       } else if (error === AUTH_ERROR.INVALID_CREDENTIALS) {
-        console.error(dictionary?.invalid_credentials || 'Invalid credentials');
+        toast.error(dictionary?.invalid_credentials || 'Invalid credentials');
       } else if (error === AUTH_ERROR.SERVER_ERROR) {
-        console.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
+        toast.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
       }
     }
   }
