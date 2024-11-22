@@ -9,21 +9,6 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
-    fontSize: {
-      xs: 'var(--fs-xs)',
-      sm: 'var(--fs-sm)',
-      base: 'var(--fs-md)',
-      lg: 'var(--fs-lg)',
-      xl: 'var(--fs-xl)',
-      '2xl': 'var(--fs-2xl)',
-      '3xl': 'var(--fs-3xl)',
-      '4xl': 'var(--fs-4xl)',
-      '5xl': 'var(--fs-5xl)',
-      '6xl': 'var(--fs-6xl)',
-      '7xl': 'var(--fs-7xl)',
-      '8xl': 'var(--fs-8xl)',
-      '9xl': 'var(--fs-9xl)'
-    },
     extend: {
       colors: {
         background: 'hsl(var(--background))',

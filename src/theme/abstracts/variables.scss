@@ -14,20 +14,13 @@ $black: #444444;
 
 :root {
   // Font sizes
-  --fs-xxs: 0.75rem;
-  --fs-xs: 1.2rem;
-  --fs-sm: 1.4rem;
-  --fs-md: 1.6rem;
-  --fs-lg: 1.8rem;
-  --fs-xl: 2rem;
-  --fs-2xl: 2.4rem;
-  --fs-3xl: 3rem;
-  --fs-4xl: 3.6rem;
-  --fs-5xl: 4.8rem;
-  --fs-6xl: 6rem;
-  --fs-7xl: 7.2rem;
-  --fs-8xl: 9.6rem;
-  --fs-9xl: 12.8rem;
+  --fs-xxs: 10px;
+  --fs-xs: 13px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 21px;
+  --fs-xxl: 32px;
+  --fs-xxxl: 44px;
 
   // Font weights
   --fw-regular: 400;
