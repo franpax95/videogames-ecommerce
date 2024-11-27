@@ -18,9 +18,9 @@ import Link from 'next/link';
 import { loginFormErrorMessages, loginSchema } from '@/schemas/login';
 import { useEffect } from 'react';
 import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
+import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { toast } from 'react-toastify';
-import { API_ERROR } from '@/lib/constants';
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
