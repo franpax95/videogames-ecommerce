@@ -9,7 +9,9 @@ import logo from '@public/images/logo.png';
 
 export async function AppSidebar() {
   // Ask for platforms on server action and pass to AppSidebarMenu to render inmediately
-  const platforms = await getPlatforms().then(({ data }) => data);
+  const platforms = await getPlatforms()
+    .then(({ data }) => data)
+    .catch(() => []);
   const lang = getLocale();
 
   return (

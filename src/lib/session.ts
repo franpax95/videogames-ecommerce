@@ -2,7 +2,10 @@
 
 import { Session } from '@/types/session';
 import { clearCookie, getCookie, setCookie } from './cookies';
-import { sessionCookieId } from './constants';
+import constants from './constants';
+import { jwtDecode } from 'jwt-decode';
+
+const { sessionCookieId } = constants.cookies;
 
 export const setSession = async (session: Session) => {
   await setCookie(sessionCookieId, JSON.stringify(session));
@@ -20,3 +23,10 @@ export const getSession = async (): Promise<Session | null> => {
 export const clearSession = async () => {
   await clearCookie(sessionCookieId);
 };
+
+export async function hasExpired(token: string) {
+  const tokenDecode = jwtDecode(token);
+  const expiredDate = (tokenDecode.exp ?? 0) * 1000;
+  const currentDate = new Date().getTime();
+  return currentDate > expiredDate;
+}
