@@ -1,0 +1,23 @@
+.account-page {
+  width: 100%;
+  max-width: 650px;
+  padding: 0 1rem;
+  margin: 2rem auto;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__profile-dialog-wrapper {
+    margin: 0 auto;
+
+    @include large-mobile {
+      margin: 0;
+      position: absolute;
+      top: 0;
+      right: 1rem;
+    }
+  }
+}
