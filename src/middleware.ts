@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Locale } from './types/locale';
-import { sessionCookieId } from './lib/constants';
+import constants from './lib/constants';
 
+const { sessionCookieId } = constants.cookies;
 const locales: Locale[] = ['en', 'es'];
 const protectedRoutes = ['/account'];
 const authRoutes = ['/login', '/register'];
