@@ -4,6 +4,7 @@ import { Locale } from '@/types/locale';
 import { AuthProvider } from '@/providers/AuthProvider';
 import ToastProvider from '@/providers/ToastProvider';
 import { AddressProvider } from '@/contexts/AddressContext';
+import { UserProvider } from '@/contexts/UserContext';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body>
         <ToastProvider>
           <AuthProvider>
-            <AddressProvider>{children}</AddressProvider>
+            <UserProvider>
+              <AddressProvider>{children}</AddressProvider>
+            </UserProvider>
           </AuthProvider>
         </ToastProvider>
       </body>
