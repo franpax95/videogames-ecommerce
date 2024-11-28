@@ -58,7 +58,7 @@ export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
 
     try {
       await register(formData);
-      toast.success(dictionary?.succeed_register_message || 'Register successful');
+      toast.info(dictionary?.succeed_register_message || 'Register successful');
     } catch (err) {
       const error = (err as Error).message as API_ERROR;
       if (error === API_ERROR.INCORRECT_CREDENTIALS) {
