@@ -21,6 +21,7 @@ import { setZodLocale } from '@/lib/zod-locale';
 import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { toast } from 'react-toastify';
+import { ApiError } from '@/lib/api-error';
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -52,12 +53,12 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
       await login(formData);
       toast.info(dictionary?.succeed_login_message || 'Login successful');
     } catch (err) {
-      const error = (err as Error).message as API_ERROR;
-      if (error === API_ERROR.INCORRECT_CREDENTIALS) {
+      const error = err as ApiError;
+      if (error.type === API_ERROR.INCORRECT_CREDENTIALS) {
         toast.error(dictionary?.incorrect_credentials || 'Incorrect credentials');
-      } else if (error === API_ERROR.INVALID_CREDENTIALS) {
+      } else if (error.type === API_ERROR.INVALID_CREDENTIALS) {
         toast.error(dictionary?.invalid_credentials || 'Invalid credentials');
-      } else if (error === API_ERROR.SERVER_ERROR) {
+      } else if (error.type === API_ERROR.SERVER_ERROR) {
         toast.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
       }
     }
