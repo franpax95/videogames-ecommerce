@@ -60,7 +60,7 @@ export function ChangePasswordForm({ onSucceed, lang, dictionary }: ChangePasswo
     try {
       await changePassword(formData);
       onSucceed();
-      toast.success(dictionary?.succeed_toast_message || 'Password changed successful');
+      toast.info(dictionary?.succeed_toast_message || 'Password changed successful');
     } catch (err) {
       const error = err as Error;
       console.error(error);
