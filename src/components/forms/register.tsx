@@ -16,10 +16,14 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
+import { setZodLocale } from '@/lib/zod-locale';
 import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
-import { registerFormErrorMessages, registerSchema } from '@/schemas/register';
+import {
+  createRegisterErrorMap,
+  registerFormErrorMessages,
+  registerSchema
+} from '@/schemas/register';
 import { toast } from 'react-toastify';
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
@@ -42,7 +46,7 @@ export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createErrorMap(registerFormErrorMessages(dictionary)), lang);
+    setZodLocale(createRegisterErrorMap(registerFormErrorMessages(dictionary)), lang);
   }, []);
 
   async function onSubmit(values: RegisterFormData) {
