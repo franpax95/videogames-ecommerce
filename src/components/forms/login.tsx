@@ -15,9 +15,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { loginFormErrorMessages, loginSchema } from '@/schemas/login';
+import { createLoginErrorMap, loginFormErrorMessages, loginSchema } from '@/schemas/login';
 import { useEffect } from 'react';
-import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
+import { setZodLocale } from '@/lib/zod-locale';
 import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { toast } from 'react-toastify';
@@ -40,7 +40,7 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createErrorMap(loginFormErrorMessages(dictionary)), lang);
+    setZodLocale(createLoginErrorMap(loginFormErrorMessages(dictionary)), lang);
   }, []);
 
   async function onSubmit(values: LoginFormData) {
