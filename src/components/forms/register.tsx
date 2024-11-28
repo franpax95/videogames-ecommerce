@@ -25,6 +25,7 @@ import {
   registerSchema
 } from '@/schemas/register';
 import { toast } from 'react-toastify';
+import { ApiError } from '@/lib/api-error';
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -60,12 +61,12 @@ export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
       await register(formData);
       toast.info(dictionary?.succeed_register_message || 'Register successful');
     } catch (err) {
-      const error = (err as Error).message as API_ERROR;
-      if (error === API_ERROR.INCORRECT_CREDENTIALS) {
+      const error = err as ApiError;
+      if (error.type === API_ERROR.INCORRECT_CREDENTIALS) {
         toast.error(dictionary?.incorrect_credentials || 'Incorrect credentials');
-      } else if (error === API_ERROR.INVALID_CREDENTIALS) {
+      } else if (error.type === API_ERROR.INVALID_CREDENTIALS) {
         toast.error(dictionary?.invalid_credentials || 'Invalid credentials');
-      } else if (error === API_ERROR.SERVER_ERROR) {
+      } else if (error.type === API_ERROR.SERVER_ERROR) {
         toast.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
       }
     }
