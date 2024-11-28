@@ -50,7 +50,7 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
 
     try {
       await login(formData);
-      toast.success(dictionary?.succeed_login_message || 'Login successful');
+      toast.info(dictionary?.succeed_login_message || 'Login successful');
     } catch (err) {
       const error = (err as Error).message as API_ERROR;
       if (error === API_ERROR.INCORRECT_CREDENTIALS) {
