@@ -24,6 +24,7 @@ import {
   changePasswordSchema,
   createChangePasswordFormErrorMap
 } from '@/schemas/change-password';
+import { ApiError } from '@/lib/api-error';
 
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
@@ -62,16 +63,15 @@ export function ChangePasswordForm({ onSucceed, lang, dictionary }: ChangePasswo
       onSucceed();
       toast.info(dictionary?.succeed_toast_message || 'Password changed successful');
     } catch (err) {
-      const error = err as Error;
-      console.error(error);
+      const error = err as ApiError;
 
       // Invalid credentials if current password is bad
-      if (error.message === API_ERROR.INVALID_CREDENTIALS) {
+      if (error.type === API_ERROR.INVALID_CREDENTIALS) {
         toast.error(dictionary?.invalid_credentials_message || 'Invalid credentials');
       }
 
       // Incorrect credentials because current password and new password equals
-      else if (error.message === API_ERROR.INCORRECT_CREDENTIALS) {
+      else if (error.type === API_ERROR.INCORRECT_CREDENTIALS) {
         toast.error(dictionary?.incorrect_credentials_message || 'Incorrect credentials');
       }
 
