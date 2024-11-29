@@ -27,17 +27,24 @@ import { Address } from '@/types/address';
 import { useAddress } from '@/hooks/use-address';
 import { ApiError } from '@/lib/api-error';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
+import constants from '@/lib/constants';
+import { useTranslations } from '@/hooks/use-translations';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type AddressFormData = z.infer<typeof addressSchema>;
 
 export interface AddressFormProps {
   address?: Address | null;
   onSucceed: () => void;
-  lang: string;
-  dictionary: { [key: string]: string } | null;
 }
 
-export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFormProps) {
+export function AddressForm({ address, onSucceed }: AddressFormProps) {
+  const {
+    locale,
+    dictionaries: { [i18nSections.addressForm]: dictionary }
+  } = useTranslations();
+
   const apiErrorHandler = useApiErrorHandler();
   const { loading, addressTypes, createAddress, updateAddress, fetchAddressTypes } = useAddress();
 
@@ -79,8 +86,8 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
   }, [form, addressTypes]);
 
   useEffect(() => {
-    setZodLocale(createAddressFormErrorMap(addressFormErrorMessages(dictionary)), lang);
-  }, [dictionary, lang]);
+    setZodLocale(createAddressFormErrorMap(addressFormErrorMessages(dictionary)), locale);
+  }, [dictionary, locale]);
 
   async function onSubmit(formData: AddressFormData) {
     try {

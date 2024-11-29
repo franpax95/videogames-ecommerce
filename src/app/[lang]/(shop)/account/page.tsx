@@ -81,7 +81,7 @@ export default async function AccountPage() {
 
           <TabsContent value="orders">My orders</TabsContent>
           <TabsContent value="wishlists">My wishlists</TabsContent>
-          <AccTabAddresses lang={lang} dictionary={null} />
+          <AccTabAddresses />
           <AccTabAccount />
         </Tabs>
       </div>
