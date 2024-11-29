@@ -49,7 +49,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
 
       return createAddress(formData as AddressFormData);
     },
-    [address]
+    [address, createAddress, updateAddress]
   );
 
   const form = useForm<AddressFormData>({
