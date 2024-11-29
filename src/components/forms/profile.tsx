@@ -12,6 +12,8 @@ import { useSession } from '@/hooks/use-session';
 import { profileFormErrorMessages, profileSchema } from '@/schemas/profile';
 import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
 import { useUser } from '@/hooks/use-user';
+import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
+import { ApiError } from '@/lib/api-error';
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
 
@@ -23,6 +25,7 @@ export type ProfileFormProps = {
 
 export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
   const { user } = useSession();
+  const apiErrorHandler = useApiErrorHandler();
   const { loading, updateProfile } = useUser();
 
   const form = useForm<ProfileFormData>({
@@ -42,23 +45,11 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
   const onSubmit = async (data: ProfileFormData) => {
     try {
       await updateProfile(data);
-      toast.success('Profile edited successfully');
+      toast.info('Profile edited successfully');
       onSucceed();
     } catch (err) {
-      console.dir(err);
-      // const error = err as Error;
-
-      // If unauthorized, then redirect to login
-      // if (
-      //   error.message === API_ERROR.SESSION_EXPIRED ||
-      //   error.message === API_ERROR.SESSION_INVALID
-      // ) {
-      //   toast('Se ha cerrado la sesión por inactividad. Inicia sesión de nuevo.');
-      //   logout('/login');
-      //   return;
-      // }
-
-      toast.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
+      const error = err as ApiError;
+      apiErrorHandler(error);
     }
   };
 
