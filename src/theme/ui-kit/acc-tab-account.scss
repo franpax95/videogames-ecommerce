@@ -1,0 +1,25 @@
+.acc-tab-account {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__section {
+    margin-bottom: 0.15rem;
+  }
+
+  &__section-title {
+    color: hsl(var(--primary-foreground));
+    font-size: var(--fs-lg);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: hsl(var(--primary-foreground));
+  }
+}

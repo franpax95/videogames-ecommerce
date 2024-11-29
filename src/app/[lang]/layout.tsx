@@ -3,6 +3,8 @@ import '../../theme/global.scss';
 import { Locale } from '@/types/locale';
 import { AuthProvider } from '@/providers/AuthProvider';
 import ToastProvider from '@/providers/ToastProvider';
+import { AddressProvider } from '@/contexts/AddressContext';
+import { UserProvider } from '@/contexts/UserContext';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -24,7 +26,11 @@ export default function RootLayout({
     <html lang={lang} className="dark">
       <body>
         <ToastProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <UserProvider>
+              <AddressProvider>{children}</AddressProvider>
+            </UserProvider>
+          </AuthProvider>
         </ToastProvider>
       </body>
     </html>

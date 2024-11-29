@@ -15,12 +15,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { loginFormErrorMessages, loginSchema } from '@/schemas/login';
+import { createLoginErrorMap, loginFormErrorMessages, loginSchema } from '@/schemas/login';
 import { useEffect } from 'react';
-import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
+import { setZodLocale } from '@/lib/zod-locale';
+import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { toast } from 'react-toastify';
-import { API_ERROR } from '@/lib/constants';
+import { ApiError } from '@/lib/api-error';
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -40,7 +41,7 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createErrorMap(loginFormErrorMessages(dictionary)), lang);
+    setZodLocale(createLoginErrorMap(loginFormErrorMessages(dictionary)), lang);
   }, []);
 
   async function onSubmit(values: LoginFormData) {
@@ -50,14 +51,14 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
 
     try {
       await login(formData);
-      toast.success(dictionary?.succeed_login_message || 'Login successful');
+      toast.info(dictionary?.succeed_login_message || 'Login successful');
     } catch (err) {
-      const error = (err as Error).message as API_ERROR;
-      if (error === API_ERROR.INCORRECT_CREDENTIALS) {
+      const error = err as ApiError;
+      if (error.type === API_ERROR.INCORRECT_CREDENTIALS) {
         toast.error(dictionary?.incorrect_credentials || 'Incorrect credentials');
-      } else if (error === API_ERROR.INVALID_CREDENTIALS) {
+      } else if (error.type === API_ERROR.INVALID_CREDENTIALS) {
         toast.error(dictionary?.invalid_credentials || 'Invalid credentials');
-      } else if (error === API_ERROR.SERVER_ERROR) {
+      } else if (error.type === API_ERROR.SERVER_ERROR) {
         toast.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
       }
     }

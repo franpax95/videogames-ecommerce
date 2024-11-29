@@ -1,0 +1,69 @@
+.app-badge {
+  padding: 0.25rem;
+  margin-bottom: 1.25rem;
+  display: grid;
+  column-gap: 20px;
+  grid-template-areas:
+    'icon title'
+    'icon subtitle';
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+
+  &__icon {
+    grid-area: icon;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background-color: hsl(var(--secondary));
+  }
+
+  &__title,
+  &__subtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__title {
+    grid-area: title;
+  }
+
+  &__subtitle {
+    grid-area: subtitle;
+    font-size: var(--fs-xs);
+  }
+
+  &--interactive {
+    cursor: pointer;
+    transition: background-color 0.25s;
+
+    &:hover {
+      background-color: hsl(var(--secondary) / 0.5);
+    }
+  }
+
+  &--big {
+    .app-badge__icon {
+      height: 90px;
+      width: 90px;
+      border-radius: 15px;
+    }
+
+    .app-badge__title {
+      font-size: var(--fs-xxl);
+      line-height: 1;
+    }
+
+    .app-badge__subtitle {
+      font-size: var(--fs-lg);
+    }
+  }
+
+  &--relative {
+    position: relative;
+  }
+}
