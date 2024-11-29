@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import { ApiError } from '@/lib/api-error';
 import constants from '@/lib/constants';
 import { useTranslations } from '@/hooks/use-translations';
+import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 
 const { localeEndpoints: i18nSections } = constants;
 
@@ -31,6 +32,7 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const { loading, login } = useSession();
+  const apiErrorHandler = useApiErrorHandler();
   const {
     locale,
     dictionaries: { [i18nSections.login]: dictionary }
@@ -63,7 +65,7 @@ export function LoginForm() {
       } else if (error.type === API_ERROR.INVALID_CREDENTIALS) {
         toast.error(dictionary?.invalid_credentials || 'Invalid credentials');
       } else if (error.type === API_ERROR.SERVER_ERROR) {
-        toast.error(dictionary?.server_error || 'Something went wrong. Please, try again later.');
+        apiErrorHandler(error);
       }
     }
   }

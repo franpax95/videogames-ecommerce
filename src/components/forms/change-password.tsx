@@ -27,6 +27,7 @@ import {
 import { ApiError } from '@/lib/api-error';
 import { useTranslations } from '@/hooks/use-translations';
 import constants from '@/lib/constants';
+import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 
 const { localeEndpoints: i18nSections } = constants;
 
@@ -38,6 +39,7 @@ export interface ChangePasswordFormProps {
 
 export function ChangePasswordForm({ onSucceed }: ChangePasswordFormProps) {
   const { loading, changePassword } = useSession();
+  const apiErrorHandler = useApiErrorHandler();
   const {
     locale,
     dictionaries: { [i18nSections.changePassword]: dictionary }
@@ -82,11 +84,9 @@ export function ChangePasswordForm({ onSucceed }: ChangePasswordFormProps) {
         toast.error(dictionary?.incorrect_credentials_message || 'Incorrect credentials');
       }
 
-      // Other errors
+      // Generic error handling for api responses
       else {
-        toast.error(
-          dictionary?.generic_error_toast || 'Something went wrong. Please, try again later.'
-        );
+        apiErrorHandler(error);
       }
     }
   }

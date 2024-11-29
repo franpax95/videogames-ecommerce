@@ -26,6 +26,7 @@ import {
 import { Address } from '@/types/address';
 import { useAddress } from '@/hooks/use-address';
 import { ApiError } from '@/lib/api-error';
+import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 
 export type AddressFormData = z.infer<typeof addressSchema>;
 
@@ -37,7 +38,9 @@ export interface AddressFormProps {
 }
 
 export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFormProps) {
+  const apiErrorHandler = useApiErrorHandler();
   const { loading, addressTypes, createAddress, updateAddress, fetchAddressTypes } = useAddress();
+
   const save = useCallback(
     (formData: Partial<AddressFormData>) => {
       if (address) {
@@ -46,7 +49,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
 
       return createAddress(formData as AddressFormData);
     },
-    [address]
+    [address, createAddress, updateAddress]
   );
 
   const form = useForm<AddressFormData>({
@@ -88,10 +91,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
       );
     } catch (err) {
       const error = err as ApiError;
-      console.error(error);
-      toast.error(
-        dictionary?.generic_error_toast || 'Something went wrong. Please, try again later.'
-      );
+      apiErrorHandler(error);
     }
   }
 
