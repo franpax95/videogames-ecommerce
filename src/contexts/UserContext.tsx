@@ -32,17 +32,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if ('error' in result) {
       setLoading(false);
       throw new ApiError(result);
-      // const error = new ApiError(result);
-      // return handleAuthApiError(error);
-
-      // if (
-      //   error.type === API_ERROR.SESSION_EXPIRED ||
-      //   error.type === API_ERROR.SESSION_INVALID
-      // ) {
-      //   logout('/login');
-      // }
-
-      // throw error;
     }
 
     setLoading(false);
