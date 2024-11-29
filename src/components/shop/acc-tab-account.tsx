@@ -9,12 +9,7 @@ import { useSession } from '@/hooks/use-session';
 import { beautifyDate } from '@/utils';
 import { ChangePasswordDialog } from '../dialogs/change-password';
 
-export interface AccTabAccountProps {
-  lang: string;
-  changePasswordDictionary: { [key: string]: string } | null;
-}
-
-export default function AccTabAccount({ lang, changePasswordDictionary }: AccTabAccountProps) {
+export default function AccTabAccount() {
   const { user, logout } = useSession();
 
   const onLogoutClick = async () => {
@@ -54,7 +49,7 @@ export default function AccTabAccount({ lang, changePasswordDictionary }: AccTab
 
         <div className="acc-tab-account__option">
           <h2 className="acc-tab-account__option-name">Password</h2>
-          <ChangePasswordDialog lang={lang} dictionary={changePasswordDictionary} />
+          <ChangePasswordDialog />
         </div>
       </div>
 

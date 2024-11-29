@@ -22,6 +22,12 @@ const constants = {
     addressType: 'address-types',
     auth: 'auth',
     user: 'users'
+  },
+  localeEndpoints: {
+    general: 'general',
+    register: 'register',
+    login: 'login',
+    changePassword: 'change-password'
   }
 };
 

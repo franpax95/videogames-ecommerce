@@ -8,14 +8,16 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { ChangePasswordForm } from '../forms/change-password';
+import { useTranslations } from '@/hooks/use-translations';
+import constants from '@/lib/constants';
 
-export interface ChangePasswordDialogProps {
-  lang: string;
-  dictionary: { [key: string]: string } | null;
-}
+const { localeEndpoints: i18nSections } = constants;
 
-export function ChangePasswordDialog({ lang, dictionary }: ChangePasswordDialogProps) {
+export function ChangePasswordDialog() {
   const [open, setOpen] = useState<boolean>(false);
+  const {
+    dictionaries: { [i18nSections.changePassword]: dictionary }
+  } = useTranslations();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -27,7 +29,7 @@ export function ChangePasswordDialog({ lang, dictionary }: ChangePasswordDialogP
         <DialogHeader>
           <DialogTitle>{dictionary?.title}</DialogTitle>
         </DialogHeader>
-        <ChangePasswordForm onSucceed={() => setOpen(false)} lang={lang} dictionary={dictionary} />
+        <ChangePasswordForm onSucceed={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

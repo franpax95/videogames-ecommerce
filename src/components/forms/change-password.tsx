@@ -25,17 +25,24 @@ import {
   createChangePasswordFormErrorMap
 } from '@/schemas/change-password';
 import { ApiError } from '@/lib/api-error';
+import { useTranslations } from '@/hooks/use-translations';
+import constants from '@/lib/constants';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
 export interface ChangePasswordFormProps {
   onSucceed: () => void;
-  lang: string;
-  dictionary: { [key: string]: string } | null;
 }
 
-export function ChangePasswordForm({ onSucceed, lang, dictionary }: ChangePasswordFormProps) {
+export function ChangePasswordForm({ onSucceed }: ChangePasswordFormProps) {
   const { loading, changePassword } = useSession();
+  const {
+    locale,
+    dictionaries: { [i18nSections.changePassword]: dictionary }
+  } = useTranslations();
+
   const form = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
@@ -47,10 +54,10 @@ export function ChangePasswordForm({ onSucceed, lang, dictionary }: ChangePasswo
 
   useEffect(() => {
     setZodLocale(
-      createChangePasswordFormErrorMap(changePasswordFormErrorMessages(dictionary)),
-      lang
+      createChangePasswordFormErrorMap(changePasswordFormErrorMessages(dictionary ?? {})),
+      locale
     );
-  }, [dictionary, lang]);
+  }, [dictionary, locale]);
 
   async function onSubmit(values: ChangePasswordFormData) {
     const formData = new FormData();

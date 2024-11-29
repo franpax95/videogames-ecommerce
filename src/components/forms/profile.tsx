@@ -5,16 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useSession } from '@/hooks/use-session';
 import { profileFormErrorMessages, profileSchema } from '@/schemas/profile';
-import { User } from '@/types/user';
 import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
-import { authPUT } from '@/app/api/fetch-auth';
-import { API_ERROR } from '@/lib/constants';
-import { setSession } from '@/lib/session';
+import { useUser } from '@/hooks/use-user';
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
 
@@ -25,8 +22,8 @@ export type ProfileFormProps = {
 };
 
 export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
-  const { token, user, updateSession, logout } = useSession();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useSession();
+  const { loading, updateProfile } = useUser();
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -43,41 +40,25 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
   }, []);
 
   const onSubmit = async (data: ProfileFormData) => {
-    if (!user) {
-      toast.error('Something went wrong. Please reload the page or log in again.');
-      return;
-    }
-
     try {
-      setLoading(true);
-
-      // Edit user via API
-      const userEditted = await authPUT<User, Partial<User>>(`/users/${user.id}`, data);
-
-      // Update server session cookie
-      await setSession({ token: token ?? '', user: userEditted });
-
-      // Update client session state
-      await updateSession();
-
+      await updateProfile(data);
       toast.success('Profile edited successfully');
       onSucceed();
     } catch (err) {
-      const error = err as Error;
+      console.dir(err);
+      // const error = err as Error;
 
       // If unauthorized, then redirect to login
-      if (
-        error.message === API_ERROR.SESSION_EXPIRED ||
-        error.message === API_ERROR.SESSION_INVALID
-      ) {
-        toast('Se ha cerrado la sesión por inactividad. Inicia sesión de nuevo.');
-        logout('/login');
-        return;
-      }
+      // if (
+      //   error.message === API_ERROR.SESSION_EXPIRED ||
+      //   error.message === API_ERROR.SESSION_INVALID
+      // ) {
+      //   toast('Se ha cerrado la sesión por inactividad. Inicia sesión de nuevo.');
+      //   logout('/login');
+      //   return;
+      // }
 
       toast.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
-    } finally {
-      setLoading(false);
     }
   };
 

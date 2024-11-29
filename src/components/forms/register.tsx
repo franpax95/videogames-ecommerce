@@ -26,16 +26,20 @@ import {
 } from '@/schemas/register';
 import { toast } from 'react-toastify';
 import { ApiError } from '@/lib/api-error';
+import constants from '@/lib/constants';
+import { useTranslations } from '@/hooks/use-translations';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
-interface RegisterFormProps {
-  lang: string;
-  dictionary: { [key: string]: string } | null;
-}
-
-export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
+export function RegisterForm() {
   const { loading, register } = useSession();
+  const {
+    locale,
+    dictionaries: { [i18nSections.register]: dictionary }
+  } = useTranslations();
+
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -47,7 +51,7 @@ export function RegisterForm({ lang, dictionary }: RegisterFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createRegisterErrorMap(registerFormErrorMessages(dictionary)), lang);
+    setZodLocale(createRegisterErrorMap(registerFormErrorMessages(dictionary)), locale);
   }, []);
 
   async function onSubmit(values: RegisterFormData) {

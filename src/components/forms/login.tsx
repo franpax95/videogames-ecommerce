@@ -22,16 +22,20 @@ import { API_ERROR } from '@/lib/constants';
 import { useSession } from '@/hooks/use-session';
 import { toast } from 'react-toastify';
 import { ApiError } from '@/lib/api-error';
+import constants from '@/lib/constants';
+import { useTranslations } from '@/hooks/use-translations';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-interface LoginFormProps {
-  lang: string;
-  dictionary: { [key: string]: string } | null;
-}
-
-export function LoginForm({ lang, dictionary }: LoginFormProps) {
+export function LoginForm() {
   const { loading, login } = useSession();
+  const {
+    locale,
+    dictionaries: { [i18nSections.login]: dictionary }
+  } = useTranslations();
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -41,7 +45,7 @@ export function LoginForm({ lang, dictionary }: LoginFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createLoginErrorMap(loginFormErrorMessages(dictionary)), lang);
+    setZodLocale(createLoginErrorMap(loginFormErrorMessages(dictionary)), locale);
   }, []);
 
   async function onSubmit(values: LoginFormData) {
