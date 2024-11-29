@@ -9,6 +9,10 @@ import { formatAddress } from '@/utils';
 import { AddressFormDialog } from '../dialogs/address-form';
 import { useAddress } from '@/hooks/use-address';
 import { Address } from '@/types/address';
+import { ApiError } from '@/lib/api-error';
+import { toast } from 'react-toastify';
+import { API_ERROR } from '@/lib/constants';
+import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 
 export interface AccTabAddressesProps {
   lang: string;
@@ -19,9 +23,24 @@ export default function AccTabAddresses({ lang, dictionary }: AccTabAddressesPro
   const { loading, addresses, fetchAddresses } = useAddress();
   const [address, setAddress] = useState<Address | null>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const apiErrorHandler = useApiErrorHandler();
 
   useEffect(() => {
-    fetchAddresses();
+    const fetch = async () => {
+      try {
+        await fetchAddresses();
+      } catch (err) {
+        const error = err as ApiError;
+        if (error.type === API_ERROR.SERVER_ERROR) {
+          toast.error(
+            dictionary?.fetch_addresses_error || 'Something went wrong recovering your addresses.'
+          );
+        }
+        apiErrorHandler(error);
+      }
+    };
+
+    fetch();
   }, []);
 
   const onAddressClick = (addr: Address) => {
