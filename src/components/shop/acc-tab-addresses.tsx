@@ -53,7 +53,9 @@ export default function AccTabAddresses() {
 
   return (
     <TabsContent value="addresses" className="acc-tab-addresses space-y-1">
-      <h1 className="acc-tab-addresses__title">My Addresses</h1>
+      <h1 className="acc-tab-addresses__title">
+        {dictionary?.addresses_tab_title || 'My Addresses'}
+      </h1>
 
       {loading && (
         <div className="flex items-center space-x-4">
