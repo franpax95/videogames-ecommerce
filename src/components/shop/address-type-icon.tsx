@@ -6,13 +6,13 @@ export interface AddressTypeIconProps extends LucideProps {
 }
 
 export function AddressTypeIcon({ addressType, ...props }: AddressTypeIconProps) {
-  const { name } = addressType;
+  const { identifier } = addressType;
 
-  if (name === 'Home') {
+  if (identifier === 'home') {
     return <House {...props} />;
   }
 
-  if (name === 'Work') {
+  if (identifier === 'work') {
     return <Briefcase {...props} />;
   }
 
