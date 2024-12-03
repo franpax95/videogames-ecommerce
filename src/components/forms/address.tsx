@@ -48,7 +48,7 @@ export function AddressForm({ address, onSucceed }: AddressFormProps) {
 
   const apiErrorHandler = useApiErrorHandler();
   const { loading, createAddress, updateAddress } = useAddress();
-  const { addressTypes, fetchAddressTypes } = useAddressType();
+  const { loading: pendingAddressTypesFetch, addressTypes, fetchAddressTypes } = useAddressType();
 
   const save = useCallback(
     (formData: Partial<AddressFormData>) => {
@@ -76,7 +76,7 @@ export function AddressForm({ address, onSucceed }: AddressFormProps) {
   });
 
   useEffect(() => {
-    if (!addressTypes.length) {
+    if (!addressTypes.length && !pendingAddressTypesFetch) {
       fetchAddressTypes();
     }
   }, []);
