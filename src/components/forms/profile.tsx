@@ -14,17 +14,23 @@ import { createErrorMap, setZodLocale } from '@/lib/zod-locale';
 import { useUser } from '@/hooks/use-user';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 import { ApiError } from '@/lib/api-error';
+import constants from '@/lib/constants';
+import { useTranslations } from '@/hooks/use-translations';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
 
 export type ProfileFormProps = {
   onSucceed: () => void;
-  lang: string;
-  dictionary: { [key: string]: string } | null;
 };
 
-export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
+export function ProfileForm({ onSucceed }: ProfileFormProps) {
   const { user } = useSession();
+  const {
+    locale,
+    dictionaries: { [i18nSections.profileForm]: dictionary }
+  } = useTranslations();
   const apiErrorHandler = useApiErrorHandler();
   const { loading, updateProfile } = useUser();
 
@@ -39,13 +45,13 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
   });
 
   useEffect(() => {
-    setZodLocale(createErrorMap(profileFormErrorMessages(dictionary)), lang);
+    setZodLocale(createErrorMap(profileFormErrorMessages(dictionary)), locale);
   }, []);
 
   const onSubmit = async (data: ProfileFormData) => {
     try {
       await updateProfile(data);
-      toast.info('Profile edited successfully');
+      toast.info(dictionary?.success_update_message || 'Profile edited successfully');
       onSucceed();
     } catch (err) {
       const error = err as ApiError;
@@ -57,9 +63,10 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="with-validation">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>{dictionary?.dialog_title || 'Edit profile'}</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            {dictionary?.dialog_description ||
+              "Make changes to your profile here. Click save when you're done."}
           </DialogDescription>
         </DialogHeader>
 
@@ -69,7 +76,7 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center gap-4">
-                <FormLabel className="text-right">Email</FormLabel>
+                <FormLabel className="text-right">{dictionary?.email_label || 'Email'}</FormLabel>
                 <FormControl>
                   <Input className="col-span-3" {...field} />
                 </FormControl>
@@ -83,7 +90,9 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
             name="username"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center gap-4">
-                <FormLabel className="text-right">Username</FormLabel>
+                <FormLabel className="text-right">
+                  {dictionary?.username_label || 'Username'}
+                </FormLabel>
                 <FormControl>
                   <Input className="col-span-3" {...field} />
                 </FormControl>
@@ -97,7 +106,9 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
             name="firstname"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center gap-4">
-                <FormLabel className="text-right">First Name</FormLabel>
+                <FormLabel className="text-right">
+                  {dictionary?.firstname_label || 'First Name'}
+                </FormLabel>
                 <FormControl>
                   <Input className="col-span-3" {...field} />
                 </FormControl>
@@ -111,7 +122,9 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
             name="lastname"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center gap-4">
-                <FormLabel className="text-right">Last Name</FormLabel>
+                <FormLabel className="text-right">
+                  {dictionary?.lastname_label || 'Last Name'}
+                </FormLabel>
                 <FormControl>
                   <Input className="col-span-3" {...field} />
                 </FormControl>
@@ -123,7 +136,11 @@ export function ProfileForm({ onSucceed, lang, dictionary }: ProfileFormProps) {
 
         <DialogFooter>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : 'Save changes'}
+            {loading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              dictionary?.submit_button || 'Save changes'
+            )}
           </Button>
         </DialogFooter>
       </form>
