@@ -29,7 +29,8 @@ const constants = {
     login: 'login',
     changePassword: 'change-password',
     account: 'account',
-    addressForm: 'address-form'
+    addressForm: 'address-form',
+    profileForm: 'profile-form'
   }
 };
 
