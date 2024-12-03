@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useState, ReactNode } from 'react';
-import { AddressType } from '@/types/address-type';
 import { Address, AddressRequestData } from '@/types/address';
 import { createAddress, getAddresses, updateAddress } from '@/app/api/address';
 import { AddressFormData } from '@/components/forms/address';
@@ -9,14 +8,11 @@ import { useSession } from '@/hooks/use-session';
 import { prepareRelatedFieldForRequest } from '@/utils';
 import { ApiError } from '@/lib/api-error';
 import { API_ERROR } from '@/lib/constants';
-import { getAddressTypes } from '@/app/api/address-type';
 
 interface AddressContextType {
   loading: boolean;
   addresses: Array<Address>;
-  addressTypes: Array<AddressType>;
   fetchAddresses: () => Promise<void>;
-  fetchAddressTypes: () => Promise<void>;
   createAddress: (formData: AddressFormData) => Promise<Address>;
   updateAddress: (formData: Partial<AddressFormData>, documentId: string) => Promise<Address>;
 }
@@ -29,7 +25,6 @@ export const AddressContext = createContext<AddressContextType | undefined>(unde
 
 export const AddressProvider: React.FC<AddressProviderProps> = ({ children }) => {
   const { user } = useSession();
-  const [addressTypes, setAddressTypes] = useState<Array<AddressType>>([]);
   const [addresses, setAddresses] = useState<Array<Address>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -38,22 +33,10 @@ export const AddressProvider: React.FC<AddressProviderProps> = ({ children }) =>
     const result = await getAddresses();
     if ('error' in result) {
       setLoading(false);
+      console.dir(new ApiError(result));
       throw new ApiError(result);
     }
     setAddresses(result);
-    setLoading(false);
-  };
-
-  const fetchAddressTypes = async () => {
-    setLoading(true);
-
-    const result = await getAddressTypes();
-    if ('error' in result) {
-      setLoading(false);
-      throw new ApiError(result);
-    }
-
-    setAddressTypes(result);
     setLoading(false);
   };
 
@@ -107,9 +90,7 @@ export const AddressProvider: React.FC<AddressProviderProps> = ({ children }) =>
       value={{
         loading,
         addresses,
-        addressTypes,
         fetchAddresses,
-        fetchAddressTypes,
         createAddress: handleCreateAddress,
         updateAddress: handleUpdateAddress
       }}

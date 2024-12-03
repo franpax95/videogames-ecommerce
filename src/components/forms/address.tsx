@@ -29,6 +29,7 @@ import { ApiError } from '@/lib/api-error';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 import constants from '@/lib/constants';
 import { useTranslations } from '@/hooks/use-translations';
+import { useAddressType } from '@/hooks/use-address-type';
 
 const { localeEndpoints: i18nSections } = constants;
 
@@ -46,7 +47,8 @@ export function AddressForm({ address, onSucceed }: AddressFormProps) {
   } = useTranslations();
 
   const apiErrorHandler = useApiErrorHandler();
-  const { loading, addressTypes, createAddress, updateAddress, fetchAddressTypes } = useAddress();
+  const { loading, createAddress, updateAddress } = useAddress();
+  const { addressTypes, fetchAddressTypes } = useAddressType();
 
   const save = useCallback(
     (formData: Partial<AddressFormData>) => {
@@ -154,7 +156,7 @@ export function AddressForm({ address, onSucceed }: AddressFormProps) {
                   <SelectContent>
                     {addressTypes.map((type) => (
                       <SelectItem key={type.documentId} value={type.documentId}>
-                        {type.name}
+                        {type[locale]}
                       </SelectItem>
                     ))}
                   </SelectContent>

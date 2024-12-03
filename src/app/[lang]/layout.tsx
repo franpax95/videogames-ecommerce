@@ -5,6 +5,7 @@ import { AuthProvider } from '@/providers/AuthProvider';
 import ToastProvider from '@/providers/ToastProvider';
 import { AddressProvider } from '@/contexts/AddressContext';
 import { UserProvider } from '@/contexts/UserContext';
+import { AddressTypeProvider } from '@/contexts/AddressTypeContext';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -28,7 +29,9 @@ export default function RootLayout({
         <ToastProvider>
           <AuthProvider>
             <UserProvider>
-              <AddressProvider>{children}</AddressProvider>
+              <AddressProvider>
+                <AddressTypeProvider>{children}</AddressTypeProvider>
+              </AddressProvider>
             </UserProvider>
           </AuthProvider>
         </ToastProvider>
