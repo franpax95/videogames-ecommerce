@@ -15,6 +15,7 @@ import { API_ERROR } from '@/lib/constants';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
 import { useTranslations } from '@/hooks/use-translations';
 import constants from '@/lib/constants';
+import { useAddressType } from '@/hooks/use-address-type';
 
 const { localeEndpoints: i18nSections } = constants;
 
@@ -23,7 +24,9 @@ export default function AccTabAddresses() {
     dictionaries: { [i18nSections.account]: dictionary }
   } = useTranslations();
 
-  const { loading, addresses, fetchAddresses } = useAddress();
+  const { addresses, fetchAddresses } = useAddress();
+  const { addressTypes, fetchAddressTypes } = useAddressType();
+  const [loading, setLoading] = useState<boolean>(false);
   const [address, setAddress] = useState<Address | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const apiErrorHandler = useApiErrorHandler();
@@ -31,6 +34,7 @@ export default function AccTabAddresses() {
   useEffect(() => {
     const fetch = async () => {
       try {
+        setLoading(true);
         await fetchAddresses();
       } catch (err) {
         const error = err as ApiError;
@@ -40,10 +44,15 @@ export default function AccTabAddresses() {
           );
         }
         apiErrorHandler(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetch();
+    if (!addressTypes.length) {
+      fetchAddressTypes();
+    }
   }, []);
 
   const onAddressClick = (addr: Address) => {

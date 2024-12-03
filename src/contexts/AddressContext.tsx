@@ -33,7 +33,6 @@ export const AddressProvider: React.FC<AddressProviderProps> = ({ children }) =>
     const result = await getAddresses();
     if ('error' in result) {
       setLoading(false);
-      console.dir(new ApiError(result));
       throw new ApiError(result);
     }
     setAddresses(result);
