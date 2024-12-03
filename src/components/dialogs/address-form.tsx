@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -35,7 +36,14 @@ export function AddressFormDialog({ open, setOpen, address, onClick }: AddressFo
 
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{dictionary?.title || 'Addresses'}</DialogTitle>
+          <DialogTitle>{dictionary?.dialog_title || 'Addresses'}</DialogTitle>
+          <DialogDescription>
+            {address
+              ? dictionary?.dialog_description_update ||
+                "Update your address and click save when you're done."
+              : dictionary?.dialog_description_create ||
+                "Fill the address info and click save when you're done."}
+          </DialogDescription>
         </DialogHeader>
 
         <AddressForm address={address} onSucceed={() => setOpen(false)} />
