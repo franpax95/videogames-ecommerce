@@ -27,17 +27,24 @@ import { Address } from '@/types/address';
 import { useAddress } from '@/hooks/use-address';
 import { ApiError } from '@/lib/api-error';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
+import constants from '@/lib/constants';
+import { useTranslations } from '@/hooks/use-translations';
+
+const { localeEndpoints: i18nSections } = constants;
 
 export type AddressFormData = z.infer<typeof addressSchema>;
 
 export interface AddressFormProps {
   address?: Address | null;
   onSucceed: () => void;
-  lang: string;
-  dictionary: { [key: string]: string } | null;
 }
 
-export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFormProps) {
+export function AddressForm({ address, onSucceed }: AddressFormProps) {
+  const {
+    locale,
+    dictionaries: { [i18nSections.addressForm]: dictionary }
+  } = useTranslations();
+
   const apiErrorHandler = useApiErrorHandler();
   const { loading, addressTypes, createAddress, updateAddress, fetchAddressTypes } = useAddress();
 
@@ -79,16 +86,17 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
   }, [form, addressTypes]);
 
   useEffect(() => {
-    setZodLocale(createAddressFormErrorMap(addressFormErrorMessages(dictionary)), lang);
-  }, [dictionary, lang]);
+    setZodLocale(createAddressFormErrorMap(addressFormErrorMessages(dictionary)), locale);
+  }, [dictionary, locale]);
 
   async function onSubmit(formData: AddressFormData) {
     try {
       await save(formData);
       onSucceed();
-      toast.info(
-        dictionary?.succeed_toast_message || `Address ${address ? 'updated' : 'created'} successful`
-      );
+      const succeedMessage = address
+        ? dictionary?.create_succeed_toast || 'Address created successful'
+        : dictionary?.update_succeed_toast || 'Address updated successful';
+      toast.info(succeedMessage);
     } catch (err) {
       const error = err as ApiError;
       apiErrorHandler(error);
@@ -104,7 +112,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>{dictionary?.title_label || 'Title'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -118,7 +126,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{dictionary?.name_label || 'Name'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -132,7 +140,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="address_type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Type</FormLabel>
+                <FormLabel>{dictionary?.type_label || 'Type'}</FormLabel>
                 <Select
                   defaultValue={field.value}
                   value={field.value}
@@ -162,7 +170,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>{dictionary?.address_label || 'Address'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -176,7 +184,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel>{dictionary?.city_label || 'City'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -190,7 +198,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
+                <FormLabel>{dictionary?.state_label || 'State'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -204,7 +212,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="postal_code"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel>{dictionary?.postal_code_label || 'Postal Code'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -218,7 +226,7 @@ export function AddressForm({ address, onSucceed, lang, dictionary }: AddressFor
             name="phone_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel>{dictionary?.phone_number_label || 'Phone Number'}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

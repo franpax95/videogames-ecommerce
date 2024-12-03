@@ -21,9 +21,9 @@ const fullname = ({ firstname, lastname }: Partial<UserInterface>) =>
   `${firstname} ${lastname}`.trim();
 
 export default async function AccountPage() {
-  const lang = getLocale();
+  const locale = getLocale();
 
-  const generalDictionaryReq = getLocalizedContent(localeEndpoints.general, lang)
+  const generalDictionaryReq = getLocalizedContent(localeEndpoints.general, locale)
     .then((content: LocalizedContent) => {
       return content;
     })
@@ -32,7 +32,16 @@ export default async function AccountPage() {
       return {};
     });
 
-  const changePasswordDictionaryReq = getLocalizedContent(localeEndpoints.changePassword, lang)
+  const accountDictionaryReq = getLocalizedContent(localeEndpoints.account, locale)
+    .then((content: LocalizedContent) => {
+      return content;
+    })
+    .catch((err) => {
+      console.error(err);
+      return {} as LocalizedContent;
+    });
+
+  const profileFormDictionaryReq = getLocalizedContent(localeEndpoints.profileForm, locale)
     .then((content: LocalizedContent) => {
       return content;
     })
@@ -41,19 +50,50 @@ export default async function AccountPage() {
       return {};
     });
 
-  const [session, generalDictionary, changePasswordDictionary] = await Promise.all([
+  const addressFormDictionaryReq = getLocalizedContent(localeEndpoints.addressForm, locale)
+    .then((content: LocalizedContent) => {
+      return content;
+    })
+    .catch((err) => {
+      console.error(err);
+      return {};
+    });
+
+  const changePasswordDictionaryReq = getLocalizedContent(localeEndpoints.changePassword, locale)
+    .then((content: LocalizedContent) => {
+      return content;
+    })
+    .catch((err) => {
+      console.error(err);
+      return {};
+    });
+
+  const [
+    session,
+    generalDictionary,
+    dictionary,
+    profileFormDictionary,
+    addressFormDictionary,
+    changePasswordDictionary
+  ] = await Promise.all([
     getSession(),
     generalDictionaryReq,
+    accountDictionaryReq,
+    profileFormDictionaryReq,
+    addressFormDictionaryReq,
     changePasswordDictionaryReq
   ]);
 
   const dictionaries: Dictionaries = {
     [localeEndpoints.general]: generalDictionary,
+    [localeEndpoints.account]: dictionary,
+    [localeEndpoints.profileForm]: profileFormDictionary,
+    [localeEndpoints.addressForm]: addressFormDictionary,
     [localeEndpoints.changePassword]: changePasswordDictionary
   };
 
   return (
-    <TranslationsProvider locale={lang} dictionaries={dictionaries}>
+    <TranslationsProvider locale={locale} dictionaries={dictionaries}>
       <div className="account-page">
         <div className="app-badge app-badge--big">
           <div className="app-badge__icon">
@@ -72,16 +112,20 @@ export default async function AccountPage() {
         <Tabs defaultValue="orders" className="w-full">
           <div className="flex justify-center">
             <TabsList className="content-center">
-              <TabsTrigger value="orders">Orders</TabsTrigger>
-              <TabsTrigger value="wishlists">Wish Lists</TabsTrigger>
-              <TabsTrigger value="addresses">Addresses</TabsTrigger>
-              <TabsTrigger value="account">Account</TabsTrigger>
+              <TabsTrigger value="orders">{dictionary?.orders_tab || 'Orders'}</TabsTrigger>
+              <TabsTrigger value="wishlists">
+                {dictionary?.wishlists_tab || 'Wish Lists'}
+              </TabsTrigger>
+              <TabsTrigger value="addresses">
+                {dictionary?.addresses_tab || 'Addresses'}
+              </TabsTrigger>
+              <TabsTrigger value="account">{dictionary?.account_tab || 'Account'}</TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="orders">My orders</TabsContent>
           <TabsContent value="wishlists">My wishlists</TabsContent>
-          <AccTabAddresses lang={lang} dictionary={null} />
+          <AccTabAddresses />
           <AccTabAccount />
         </Tabs>
       </div>

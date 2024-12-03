@@ -13,13 +13,16 @@ import { ApiError } from '@/lib/api-error';
 import { toast } from 'react-toastify';
 import { API_ERROR } from '@/lib/constants';
 import { useApiErrorHandler } from '@/hooks/use-api-error-handler';
+import { useTranslations } from '@/hooks/use-translations';
+import constants from '@/lib/constants';
 
-export interface AccTabAddressesProps {
-  lang: string;
-  dictionary: { [key: string]: string } | null;
-}
+const { localeEndpoints: i18nSections } = constants;
 
-export default function AccTabAddresses({ lang, dictionary }: AccTabAddressesProps) {
+export default function AccTabAddresses() {
+  const {
+    dictionaries: { [i18nSections.account]: dictionary }
+  } = useTranslations();
+
   const { loading, addresses, fetchAddresses } = useAddress();
   const [address, setAddress] = useState<Address | null>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -50,7 +53,9 @@ export default function AccTabAddresses({ lang, dictionary }: AccTabAddressesPro
 
   return (
     <TabsContent value="addresses" className="acc-tab-addresses space-y-1">
-      <h1 className="acc-tab-addresses__title">My Addresses</h1>
+      <h1 className="acc-tab-addresses__title">
+        {dictionary?.addresses_tab_title || 'My Addresses'}
+      </h1>
 
       {loading && (
         <div className="flex items-center space-x-4">
@@ -87,8 +92,6 @@ export default function AccTabAddresses({ lang, dictionary }: AccTabAddressesPro
         address={address}
         open={open}
         setOpen={setOpen}
-        lang={lang}
-        dictionary={dictionary}
         onClick={() => setAddress(null)}
       />
     </TabsContent>
